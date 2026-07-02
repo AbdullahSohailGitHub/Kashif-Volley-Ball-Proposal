@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kashif Murtaza — One System for Your Whole Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220;
+    --bg-2:#0F1830;
+    --surface:#141F3B;
+    --surface-2:#1A2748;
+    --line:#26345A;
+    --orange:#FF7A29;
+    --orange-soft:#FFB07A;
+    --teal:#2DD9C4;
+    --chalk:#F3F1E9;
+    --muted:#8C96B4;
+    --muted-2:#5E6A8E;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(1100px 700px at 85% -8%, rgba(45,217,196,0.10), transparent 60%),
+      radial-gradient(900px 600px at -5% 15%, rgba(255,122,41,0.10), transparent 55%),
+      radial-gradient(1400px 900px at 50% 90%, rgba(45,217,196,0.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--chalk);
+    font-family:'Archivo',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  /* faint court-line grid running the length of the page */
+  body::before{
+    content:'';
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(243,241,233,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(243,241,233,0.025) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(1200px 900px at 50% 0%, black, transparent 75%);
+    -webkit-mask-image:radial-gradient(1200px 900px at 50% 0%, black, transparent 75%);
+  }
+  nav, .hero, section, footer{position:relative;z-index:1;}
+  h1,h2,h3,.display{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:1.02;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  ::selection{background:var(--orange);color:#0B1220;}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(11,18,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .nav-brand{display:flex;align-items:center;gap:10px;}
+  .nav-mark{
+    width:34px;height:34px;border-radius:8px;
+    background:linear-gradient(135deg,var(--orange),#E85D04);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Anton',sans-serif;font-size:16px;color:#0B1220;
+  }
+  .nav-brand-text{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:0.04em;text-transform:uppercase;}
+  .nav-brand-text span{color:var(--orange);}
+  .nav-links{display:flex;gap:36px;align-items:center;}
+  .nav-links a{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;transition:color .2s;}
+  .nav-links a:hover{color:var(--chalk);}
+  .nav-cta{
+    background:var(--orange);color:#0B1220;padding:10px 22px;border-radius:6px;
+    font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.04em;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,122,41,0.35);}
+  @media(max-width:860px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero{position:relative;padding:168px 0 100px;overflow:hidden;}
+  #netCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.9;}
+  .hero-inner{position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);
+    background:rgba(45,217,196,0.08);border:1px solid rgba(45,217,196,0.25);
+    padding:7px 14px;border-radius:100px;margin-bottom:28px;letter-spacing:0.02em;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);}
+  .hero h1{font-size:clamp(40px,6.2vw,84px);max-width:920px;}
+  .hero h1 .accent{color:var(--orange);}
+  .hero-sub{
+    max-width:600px;margin-top:26px;font-size:18px;line-height:1.6;color:var(--muted);
+  }
+  .hero-actions{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--orange);color:#0B1220;padding:16px 32px;border-radius:8px;
+    font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:0.03em;
+    transition:transform .2s, box-shadow .2s;display:inline-block;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,122,41,0.35);}
+  .btn-ghost{
+    border:1px solid var(--line);color:var(--chalk);padding:16px 32px;border-radius:8px;
+    font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:0.03em;
+    transition:border-color .2s, background .2s;display:inline-block;
+  }
+  .btn-ghost:hover{border-color:var(--teal);background:rgba(45,217,196,0.06);}
+
+  /* SCOREBOARD STATS */
+  .scoreboard{
+    margin-top:76px;display:grid;grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .score-cell{padding:26px 24px;border-right:1px solid var(--line);}
+  .score-cell:last-child{border-right:none;}
+  .score-num{font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:600;color:var(--teal);}
+  .score-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:6px;}
+  @media(max-width:760px){.scoreboard{grid-template-columns:repeat(2,1fr);}.score-cell{border-bottom:1px solid var(--line);}}
+
+  /* SECTION BASE */
+  section{padding:110px 0;position:relative;}
+  .section-label{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--orange);
+    text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;display:block;
+  }
+  .section-title{font-size:clamp(30px,4vw,48px);max-width:760px;margin-bottom:20px;}
+  .section-sub{color:var(--muted);font-size:16px;max-width:640px;line-height:1.65;margin-bottom:60px;}
+
+  /* PROBLEM */
+  .problem{
+    background:
+      radial-gradient(800px 400px at 15% 0%, rgba(255,122,41,0.06), transparent 60%),
+      var(--bg-2);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .problem-card{background:var(--bg-2);padding:34px 30px;}
+  .problem-card .num{font-family:'JetBrains Mono',monospace;color:var(--muted-2);font-size:13px;margin-bottom:16px;}
+  .problem-card h3{font-family:'Archivo',sans-serif;text-transform:none;font-size:19px;font-weight:700;margin-bottom:10px;}
+  .problem-card p{color:var(--muted);font-size:14.5px;line-height:1.6;}
+  @media(max-width:860px){.problem-grid{grid-template-columns:1fr;}}
+
+  /* SOLUTION SPLIT */
+  .solution-split{display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center;}
+  .platform-card{
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    border:1px solid var(--line);border-radius:16px;padding:36px;margin-bottom:20px;
+    position:relative;
+  }
+  .platform-card.mobile::before{content:'MOBILE';}
+  .platform-card.web::before{content:'WEB ADMIN';}
+  .platform-card::before{
+    position:absolute;top:-11px;left:28px;background:var(--orange);color:#0B1220;
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:0.05em;
+  }
+  .platform-card h3{font-family:'Archivo',sans-serif;text-transform:none;font-size:21px;font-weight:800;margin-bottom:10px;}
+  .platform-card p{color:var(--muted);font-size:14.5px;line-height:1.6;}
+  .platform-card .tag-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);background:rgba(45,217,196,0.08);border:1px solid rgba(45,217,196,0.2);padding:4px 10px;border-radius:6px;}
+  .stack-visual{
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    border:1px solid var(--line);border-radius:16px;padding:32px;
+  }
+  .stack-visual h4{font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:22px;font-family:'JetBrains Mono',monospace;}
+  .stack-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);}
+  .stack-row:last-child{border-bottom:none;}
+  .stack-row .k{font-size:13px;color:var(--muted);}
+  .stack-row .v{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--chalk);font-weight:500;}
+  @media(max-width:900px){.solution-split{grid-template-columns:1fr;}}
+
+  /* FEATURE MAP */
+  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .feature-card{
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    border:1px solid var(--line);border-radius:14px;padding:28px;
+    transition:border-color .25s, transform .25s;
+  }
+  .feature-card:hover{border-color:var(--orange);transform:translateY(-4px);}
+  .feature-icon{
+    width:42px;height:42px;border-radius:10px;background:rgba(255,122,41,0.1);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--orange);font-size:19px;
+  }
+  .feature-card h3{font-family:'Archivo',sans-serif;text-transform:none;font-size:16.5px;font-weight:700;margin-bottom:8px;}
+  .feature-card p{font-size:13.5px;color:var(--muted);line-height:1.55;}
+  @media(max-width:860px){.feature-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.feature-grid{grid-template-columns:1fr;}}
+
+  /* PROCESS */
+  .process{
+    background:
+      radial-gradient(800px 450px at 85% 10%, rgba(45,217,196,0.07), transparent 60%),
+      var(--bg-2);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .timeline{position:relative;padding-left:40px;}
+  .timeline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--orange),var(--teal));}
+  .t-step{position:relative;padding-bottom:44px;}
+  .t-step:last-child{padding-bottom:0;}
+  .t-step::before{
+    content:'';position:absolute;left:-40px;top:2px;width:20px;height:20px;border-radius:50%;
+    background:var(--bg-2);border:2px solid var(--orange);
+  }
+  .t-week{font-family:'JetBrains Mono',monospace;color:var(--orange);font-size:12.5px;letter-spacing:0.04em;margin-bottom:6px;text-transform:uppercase;}
+  .t-step h3{font-family:'Archivo',sans-serif;text-transform:none;font-size:19px;font-weight:700;margin-bottom:8px;}
+  .t-step p{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:560px;}
+
+  /* PORTFOLIO */
+  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .port-card{
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));border:1px solid var(--line);border-radius:14px;padding:28px;
+    display:flex;flex-direction:column;justify-content:space-between;min-height:200px;
+    transition:border-color .25s, transform .25s;
+  }
+  .port-card:hover{border-color:var(--teal);transform:translateY(-4px);}
+  .port-card h3{font-family:'Archivo',sans-serif;text-transform:none;font-size:18px;font-weight:800;margin-bottom:8px;}
+  .port-card p{font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:18px;}
+  .port-links{display:flex;gap:10px;flex-wrap:wrap;}
+  .port-links a{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--teal);border:1px solid rgba(45,217,196,0.3);padding:6px 12px;border-radius:6px;transition:background .2s;}
+  .port-links a:hover{background:rgba(45,217,196,0.1);}
+  @media(max-width:860px){.portfolio-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.portfolio-grid{grid-template-columns:1fr;}}
+
+  .note-card{
+    margin-top:28px;background:rgba(255,122,41,0.06);border:1px solid rgba(255,122,41,0.25);
+    border-radius:12px;padding:20px 24px;font-size:13.5px;color:var(--muted);line-height:1.6;
+  }
+  .note-card b{color:var(--chalk);}
+
+  /* CTA FOOTER */
+  .cta-section{text-align:center;padding:130px 0;position:relative;}
+  .cta-section h2{font-size:clamp(32px,5vw,58px);max-width:760px;margin:0 auto 24px;}
+  .cta-section p{color:var(--muted);max-width:520px;margin:0 auto 40px;font-size:16px;line-height:1.6;}
+  footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:var(--muted-2);font-size:13px;}
+  footer .mono{color:var(--muted-2);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-brand">
+      <div class="nav-mark">KM</div>
+      <div class="nav-brand-text">Kashif <span>Murtaza</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#problem">The Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#features">Features</a>
+      <a href="#process">Process</a>
+      <a href="#portfolio">Work</a>
+    </div>
+    <a href="https://www.upwork.com/freelancers/~0190fffd7807e3ad76" target="_blank" class="nav-cta">Let's Talk</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <canvas id="netCanvas"></canvas>
+  <div class="wrap hero-inner">
+    <div class="eyebrow"><span class="dot"></span> PROPOSAL FOR YOUR VOLLEYBALL CLUB APP</div>
+    <h1>One club.<br>Every location.<br><span class="accent">One system.</span></h1>
+    <p class="hero-sub">Right now your members, attendance, and payments live across separate spreadsheets, split between coaches at different training locations. I'll replace that with a single Flutter mobile app and web admin dashboard — one source of truth for players, coaches, and management alike.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Start the Build</a>
+      <a href="#solution" class="btn-ghost">See the Approach</a>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score-cell"><div class="score-num">8+</div><div class="score-label">Years Building Mobile Apps</div></div>
+      <div class="score-cell"><div class="score-num">20+</div><div class="score-label">Live Apps Shipped</div></div>
+      <div class="score-cell"><div class="score-num">1</div><div class="score-label">System Replacing Every Spreadsheet</div></div>
+      <div class="score-cell"><div class="score-num">2</div><div class="score-label">Platforms — Mobile + Web</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="problem" id="problem">
+  <div class="wrap">
+    <span class="section-label">// Where It Breaks Today</span>
+    <h2 class="section-title">Spreadsheets don't scale past one coach.</h2>
+    <p class="section-sub">The moment a club runs multiple locations, Excel stops being a system and becomes a coordination problem.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="num">01</div>
+        <h3>No shared overview</h3>
+        <p>Each coach keeps their own sheet. Club management has no single view of attendance, payments, or membership status across locations.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">02</div>
+        <h3>Manual everything</h3>
+        <p>Attendance is logged by hand, payment status is tracked separately, and schedule changes get lost between chat groups and phone calls.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">03</div>
+        <h3>No structure for roles</h3>
+        <p>Players, coaches, and management all need different access — but a spreadsheet can't enforce who sees or edits what.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solution">
+  <div class="wrap">
+    <span class="section-label">// The Recommendation</span>
+    <h2 class="section-title">Flutter app for the court. Web dashboard for the office.</h2>
+    <p class="section-sub">One codebase covers iOS and Android for coaches and players in the field. A web admin dashboard gives club management the desktop-level overview they asked for — same backend, same data, always in sync.</p>
+
+    <div class="solution-split">
+      <div>
+        <div class="platform-card mobile">
+          <h3>Coach & Player App — Flutter</h3>
+          <p>Attendance marking, training schedules, push notifications for changes, document access, and payment status — all usable from the sideline, at any location.</p>
+          <div class="tag-row"><span class="tag">Flutter</span><span class="tag">iOS</span><span class="tag">Android</span><span class="tag">Push Notifications</span></div>
+        </div>
+        <div class="platform-card web">
+          <h3>Management Dashboard — Web</h3>
+          <p>Full club overview: members, teams, attendance statistics, payment status, role and permission management, and document control — built for a laptop or desktop screen.</p>
+          <div class="tag-row"><span class="tag">Web Admin</span><span class="tag">Role-Based Access</span><span class="tag">Statistics</span></div>
+        </div>
+      </div>
+      <div class="stack-visual">
+        <h4>Proposed Architecture</h4>
+        <div class="stack-row"><span class="k">Mobile</span><span class="v">Flutter (iOS + Android)</span></div>
+        <div class="stack-row"><span class="k">Web Dashboard</span><span class="v">React / Next.js</span></div>
+        <div class="stack-row"><span class="k">Backend API</span><span class="v">Node.js + NestJS</span></div>
+        <div class="stack-row"><span class="k">Database</span><span class="v">PostgreSQL</span></div>
+        <div class="stack-row"><span class="k">Notifications</span><span class="v">Push + Email</span></div>
+        <div class="stack-row"><span class="k">Compliance</span><span class="v">GDPR Consent Flow</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="problem" id="features">
+  <div class="wrap">
+    <span class="section-label">// Feature Coverage</span>
+    <h2 class="section-title">Every requirement from your listing, mapped.</h2>
+    <p class="section-sub">Nothing generic — this is built against the exact feature list from your job post.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">◈</div>
+        <h3>Role-Based Access</h3>
+        <p>Distinct experiences for players, coaches, and club management, with permissions enforced at the data level.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◎</div>
+        <h3>Member Profiles</h3>
+        <p>Registration, profile data, and membership status kept in one record instead of scattered rows.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">▤</div>
+        <h3>Team Management</h3>
+        <p>Group players into teams, assign coaches, and manage rosters per location from a single screen.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◷</div>
+        <h3>Schedules & Calendar</h3>
+        <p>Training calendar shared across coaches and locations, with a single edit reflected everywhere instantly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✓</div>
+        <h3>Attendance & Stats</h3>
+        <p>One-tap attendance from the coach's phone, rolling up automatically into attendance statistics for management.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⇄</div>
+        <h3>Coach Substitution</h3>
+        <p>A dedicated substitution flow so a stand-in coach gets exactly the access they need for that session — no more, no less.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">▦</div>
+        <h3>Documents</h3>
+        <p>Centralized document storage per member or team, replacing scattered files and email attachments.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Search</h3>
+        <p>Find any member, team, or document in seconds instead of scrolling through spreadsheet tabs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>Notifications</h3>
+        <p>Push and email alerts the moment a training time or venue changes — no one shows up to the wrong place.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">₨</div>
+        <h3>Payment Status</h3>
+        <p>Clear, per-member payment tracking visible to management, replacing manual reconciliation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡</div>
+        <h3>GDPR Consent</h3>
+        <p>Privacy policy acceptance built into registration, so every member is compliant from day one.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">▣</div>
+        <h3>Admin Dashboard</h3>
+        <p>The single overview club management is missing today — every location, every team, one screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <span class="section-label">// How This Gets Built</span>
+    <h2 class="section-title">A staged rollout, not a black box.</h2>
+    <p class="section-sub">You see working software early, and every stage builds on a reviewed foundation.</p>
+
+    <div class="timeline">
+      <div class="t-step">
+        <div class="t-week">Week 1</div>
+        <h3>Architecture & Data Model</h3>
+        <p>Role structure, member/team/attendance/payment data model, and wireframes for both the app and the dashboard — reviewed with you before any code is final.</p>
+      </div>
+      <div class="t-step">
+        <div class="t-week">Weeks 2–3</div>
+        <h3>Core System</h3>
+        <p>Member registration, team management, training calendar, and attendance tracking — the daily-use core for coaches and players.</p>
+      </div>
+      <div class="t-step">
+        <div class="t-week">Week 4</div>
+        <h3>Management Layer</h3>
+        <p>Web admin dashboard, role/permission controls, coach substitution flow, document management, and search.</p>
+      </div>
+      <div class="t-step">
+        <div class="t-week">Week 5</div>
+        <h3>Payments, Compliance & Notifications</h3>
+        <p>Payment status tracking, GDPR consent flow, push/email notifications, full testing, and deployment to both app stores plus the web dashboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="wrap">
+    <span class="section-label">// Proof of Work</span>
+    <h2 class="section-title">Live apps, not mockups.</h2>
+    <p class="section-sub">A sample of shipped, multi-role, real-time apps currently live on the App Store and Google Play.</p>
+
+    <div class="portfolio-grid">
+      <div class="port-card">
+        <div>
+          <h3>Challe Activity</h3>
+          <p>Activity and engagement tracking app with role-based access — the same pattern your club's player/coach/management split needs.</p>
+        </div>
+        <div class="port-links">
+          <a href="https://play.google.com/store/apps/details?id=com.cas.challe&hl=en_US" target="_blank">Google Play</a>
+          <a href="https://apps.apple.com/us/app/challe-activity/id6504609067" target="_blank">App Store</a>
+        </div>
+      </div>
+      <div class="port-card">
+        <div>
+          <h3>ReminderLink</h3>
+          <p>Scheduling and reminder app built around timely push notifications — directly relevant to your training-change alerts.</p>
+        </div>
+        <div class="port-links">
+          <a href="https://apps.apple.com/us/app/reminderlink/id6479702306" target="_blank">App Store</a>
+          <a href="https://play.google.com/store/apps/details?id=com.link.reminder&hl=en" target="_blank">Google Play</a>
+        </div>
+      </div>
+      <div class="port-card">
+        <div>
+          <h3>Sand Caddie</h3>
+          <p>Beach and rental booking app handling scheduling and status tracking across multiple sites — similar multi-location logic.</p>
+        </div>
+        <div class="port-links">
+          <a href="https://play.google.com/store/apps/details?id=com.sandcaddie&hl=en_US" target="_blank">Google Play</a>
+          <a href="https://apps.apple.com/pk/app/sand-caddie-beach-rental/id6502660470" target="_blank">App Store</a>
+        </div>
+      </div>
+      <div class="port-card">
+        <div>
+          <h3>Distrosub</h3>
+          <p>Subscription and account management app with structured user roles and status tracking.</p>
+        </div>
+        <div class="port-links">
+          <a href="https://play.google.com/store/apps/details?id=com.distrosub.www.twa&hl=en_US" target="_blank">Google Play</a>
+          <a href="https://apps.apple.com/pk/app/distrosub/id6751633808" target="_blank">App Store</a>
+        </div>
+      </div>
+      <div class="port-card">
+        <div>
+          <h3>Comet</h3>
+          <p>Real-time activity discovery app — built for fast, reliable data sync, the same backbone your attendance and payment data needs.</p>
+        </div>
+        <div class="port-links">
+          <a href="https://apps.apple.com/pk/app/comet-what-to-do-right-now/id6505089727" target="_blank">App Store</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <b>On reference platforms:</b> TeamSnap and Spond are strong examples of what mature club-management software looks like, and I've studied their approach to scheduling and attendance closely — but they aren't apps I built. The apps linked above are my own shipped work, and I'm happy to walk through the code or architecture of any of them on a call.
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <span class="section-label">// Next Step</span>
+    <h2>Let's map your data model this week.</h2>
+    <p>Send me your member, team, and payment fields — I'll turn them into a reviewed architecture and wireframes within days, so you can see exactly how this replaces every spreadsheet.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a href="https://www.upwork.com/freelancers/~0190fffd7807e3ad76" target="_blank" class="btn-primary">Message Me on Upwork</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">Kashif Murtaza — Flutter · React Native · Node.js · NestJS</span>
+  </div>
+</footer>
+
+<script>
+// Canvas: scattered nodes (locations/spreadsheets) syncing into a central hub (the app)
+const canvas = document.getElementById('netCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, DPR;
+function resize(){
+  DPR = Math.min(window.devicePixelRatio||1, 2);
+  W = canvas.offsetWidth; H = canvas.offsetHeight;
+  canvas.width = W*DPR; canvas.height = H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+const hub = {x:0, y:0};
+function setHub(){ hub.x = W*0.82; hub.y = H*0.28; }
+setHub();
+
+const NODE_COUNT = 26;
+const nodes = [];
+for(let i=0;i<NODE_COUNT;i++){
+  nodes.push({
+    baseX: Math.random()*W,
+    baseY: Math.random()*H,
+    x: Math.random()*W,
+    y: Math.random()*H,
+    r: 1.6 + Math.random()*2.2,
+    phase: Math.random()*Math.PI*2,
+    speed: 0.15 + Math.random()*0.25,
+    pulseOffset: Math.random()*Math.PI*2
+  });
+}
+
+let t = 0;
+function draw(){
+  t += 0.01;
+  ctx.clearRect(0,0,W,H);
+  setHub();
+
+  // connecting lines to hub (sync lines)
+  nodes.forEach((n,i)=>{
+    const drift = Math.sin(t*n.speed + n.phase);
+    n.x = n.baseX + drift*14;
+    n.y = n.baseY + Math.cos(t*n.speed + n.phase)*10;
+
+    const dist = Math.hypot(hub.x-n.x, hub.y-n.y);
+    const maxDist = Math.hypot(W,H)*0.55;
+    const alpha = Math.max(0, 0.16 - dist/maxDist*0.14);
+    if(alpha > 0.01){
+      ctx.strokeStyle = `rgba(45,217,196,${alpha})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(n.x, n.y);
+      ctx.lineTo(hub.x, hub.y);
+      ctx.stroke();
+    }
+  });
+
+  // node dots (orange - scattered data points)
+  nodes.forEach(n=>{
+    const pulse = 0.5 + 0.5*Math.sin(t*1.4 + n.pulseOffset);
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r + pulse*0.6, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(255,122,41,${0.35 + pulse*0.25})`;
+    ctx.fill();
+  });
+
+  // hub (teal - central system)
+  const hubPulse = 0.5 + 0.5*Math.sin(t*1.8);
+  const grad = ctx.createRadialGradient(hub.x,hub.y,0,hub.x,hub.y,60+hubPulse*10);
+  grad.addColorStop(0, 'rgba(45,217,196,0.35)');
+  grad.addColorStop(1, 'rgba(45,217,196,0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(hub.x, hub.y, 60+hubPulse*10, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(hub.x, hub.y, 5+hubPulse*2, 0, Math.PI*2);
+  ctx.fillStyle = '#2DD9C4';
+  ctx.fill();
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>
